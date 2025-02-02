@@ -27,10 +27,12 @@ app.use(
     cookie: {
       maxAge: 24 * 60 * 60 * 1000,
       secure: false,
+      sameSite: "lax",
     },
     store: MongoStore.create({
       mongoUrl: process.env.DB_URL,
       dbName: "forum",
+      ttl: 24 * 60 * 60, // 1 day
     }),
   })
 );
@@ -55,7 +57,11 @@ const url = process.env.DB_URL;
 async function connectDB() {
   if (db) return db;
   try {
-    const client = await new MongoClient(url).connect();
+    const client = await new MongoClient(url, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      maxPoolSize: 10,
+    }).connect();
     db = client.db("forum");
     console.log("DB 연결 성공!");
     return db;
