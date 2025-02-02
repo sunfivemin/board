@@ -26,7 +26,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       maxAge: 24 * 60 * 60 * 1000,
-      secure: process.env.NODE_ENV === "production",
+      secure: false,
     },
     store: MongoStore.create({
       mongoUrl: process.env.DB_URL,
@@ -53,28 +53,24 @@ let db;
 const url = process.env.DB_URL;
 
 async function connectDB() {
+  if (db) return db;
   try {
     const client = await new MongoClient(url).connect();
+    db = client.db("forum");
     console.log("DB 연결 성공!");
-    return client.db("forum");
+    return db;
   } catch (err) {
-    console.log(err);
+    console.error("DB 연결 에러:", err);
     throw err;
   }
 }
 
-// 서버 시작 전에 DB 연결
-(async () => {
-  try {
+app.use(async (req, res, next) => {
+  if (!db) {
     db = await connectDB();
-    const port = process.env.PORT || 8080;
-    app.listen(port, () => {
-      console.log(`Server is running on port ${port}`);
-    });
-  } catch (err) {
-    console.log("서버 시작 실패:", err);
   }
-})();
+  next();
+});
 
 // s3
 const { S3Client } = require("@aws-sdk/client-s3");
@@ -663,3 +659,5 @@ app.get("/users/profile", ensureAuthenticated, (요청, 응답) => {
     응답.status(500).send("프로필 페이지 로드 중 오류가 발생했습니다.");
   }
 });
+
+module.exports = app;
