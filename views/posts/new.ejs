@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>게시판</title>
+    <link rel="stylesheet" href="/css/main.css">  
+    <script src="/js/nav.js" defer></script>   
+  </head>
+  <body>
+    <%- include('../partials/nav') %>
+
+    <div class="container">
+      <div class="posts-container">
+        <% posts.forEach(function(post, index) { %>
+        <div class="post-item" onclick="location.href='/new/<%= post._id %>'">
+          <div class="post-number"><%= posts.length - index %></div>
+          <div class="post-category"><%= post.category || '일반' %></div>
+          <div class="post-title"><%= post.title %></div>
+          <div class="post-date">
+            <%= post.createdAt ? new
+            Date(post.createdAt).toLocaleString('ko-KR', { year: 'numeric',
+            month: 'long', day: 'numeric' }) : '날짜 없음' %>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+
+     <!-- 페이지네이션 -->
+     <div class="pagination">
+      <% if (totalPages > 1) { %>
+        <!-- 이전 페이지 버튼 -->
+        <button 
+          onclick="location.href='/new?page=<%= currentPage - 1 %>'"
+          <%= currentPage === 1 ? 'disabled' : '' %>
+        >이전</button>
+
+        <!-- 페이지 번호 버튼들 -->
+        <% for(let i = 1; i <= totalPages; i++) { %>
+          <button 
+            onclick="location.href='/new?page=<%= i %>'"
+            class="<%= currentPage === i ? 'active' : '' %>"
+          ><%= i %></button>
+        <% } %>
+
+        <!-- 다음 페이지 버튼 -->
+        <button 
+          onclick="location.href='/new?page=<%= currentPage + 1 %>'"
+          <%= currentPage === totalPages ? 'disabled' : '' %>
+        >다음</button>
+      <% } %>
+    </div>
+    <% if (user) { %>
+    <div class="write-btn-container">
+      <button onclick="location.href='/new/write'" class="write-btn">
+        글쓰기
+      </button>
+    </div>
+    <% } %>
+    </div>
+  </body>
+</html>

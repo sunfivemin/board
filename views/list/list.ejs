@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>디지털 매거진</title>
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/modal.css" />
+    <script src="/js/nav.js" defer></script>
+    <script src="/js/modal.js" defer></script>
+  </head>
+  <body>
+    <%- include('../partials/nav') %>
+    <%- include('../partials/modal') %>
+    
+    <section class="hero">
+      <div class="hero-content">
+        <h1>디지털 매거진</h1>
+        <p>트렌드와 라이프스타일을 담아내는 새로운 디지털 매거진</p>
+        
+        <%- include('./write') %>
+      </div>
+    </section>
+
+    <section class="featured">
+      <div class="featured-grid">
+        <% for(let i = 0; i < Math.min(6, posts.length); i++) { %>
+          <% const post = posts[i] %>
+          <article class="featured-card" onclick="handleCardClick('<%= post._id %>')">
+            <% if (post.img) { %>
+              <img src="<%= post.img %>" alt="<%= post.title %>" />
+            <% } else { %>
+              <img src="https://picsum.photos/600/400?random=<%= i %>" alt="<%= post.title %>" />
+            <% } %>
+            <div class="featured-card-content">
+              <span class="category"><%= post.category || '일반' %></span>
+              <h2><%= post.title %></h2>
+              <p><%= post.content %></p>
+              <div class="post-meta">
+                <span class="author"><%= post.authorName || '익명' %></span>
+                <span class="date">
+                  <%= post.createdAt ? new Date(post.createdAt).toLocaleString('ko-KR', {
+                    year: 'numeric', month: 'long', day: 'numeric'
+                  }) : '날짜 없음' %>
+                </span>
+              </div>
+            </div>
+          </article>
+        <% } %>
+      </div>
+    </section>
+    <div class="pagination">
+      <% if (totalPages > 1) { %>
+        <button 
+          onclick="location.href='/list?page=<%= currentPage - 1 %>'"
+          <%= currentPage === 1 ? 'disabled' : '' %>
+        >이전</button>
+
+        <% for(let i = 1; i <= totalPages; i++) { %>
+          <button 
+            onclick="location.href='/list?page=<%= i %>'"
+            class="<%= currentPage === i ? 'active' : '' %>"
+          ><%= i %></button>
+        <% } %>
+
+        <button 
+          onclick="location.href='/list?page=<%= currentPage + 1 %>'"
+          <%= currentPage === totalPages ? 'disabled' : '' %>
+        >다음</button>
+      <% } %>
+    </div>
+
+    <footer>
+      <p>© 2025 DIGIZINE. All rights reserved.</p>
+    </footer>
+
+    <script>
+      const isLoggedIn = '<%= !!user %>' === 'true';
+    
+      function checkLogin() {
+        if (!isLoggedIn) {
+          showModal('로그인 후 이용 가능한 서비스입니다.');
+          return false;
+        }
+        return true;
+      }
+    
+      function handleCardClick(postId) {
+        if (!isLoggedIn) {
+          showModal('로그인 후 게시글을 읽을 수 있습니다.');
+          return;
+        }
+        window.location.href = `/new/${postId}`;
+      }
+    </script>
+  </body>
+</html>

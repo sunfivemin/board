@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= post.title %> - 게시판</title>
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/modal.css" />
+    <script src="/js/nav.js" defer></script>
+    <script src="/js/modal.js" defer></script>
+  </head>
+  <body>
+    <%- include('../partials/nav') %> <%- include('../partials/modal') %>
+
+    <div class="container">
+      <div class="detail-container">
+        <div class="detail-header">
+          <span class="detail-category"><%= post.category || '일반' %></span>
+          <h1 class="detail-title"><%= post.title %></h1>
+          <div class="detail-meta">
+            <span class="detail-author"
+              >작성자: <%= post.authorName || '익명' %></span
+            >
+            <span class="detail-date">
+              <%= post.createdAt ? new
+              Date(post.createdAt).toLocaleString('ko-KR', { year: 'numeric',
+              month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric',
+              hour12: true }) : '날짜 없음' %>
+            </span>
+          </div>
+        </div>
+
+        <% if (post.img) { %>
+        <div class="image-container">
+          <img src="<%= post.img %>" alt="게시글 이미지" class="detail-image" />
+        </div>
+        <% } %>
+
+        <div class="detail-content">
+          <div><%= post.content %></div>
+        </div>
+
+        <div class="detail-actions">
+          <button onclick="location.href='/new'" class="back-btn">
+            목록으로
+          </button>
+          <div>
+            <button
+              onclick="editPost('<%= post._id %>')"
+              class="edit-btn"
+              aria-label="게시글 수정"
+            >
+              수정
+            </button>
+            <button
+              onclick="deletePost('<%= post._id %>')"
+              class="delete-btn"
+              aria-label="게시글 삭제"
+            >
+              삭제
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function editPost(id) {
+        location.href = `/new/edit/${id}`;
+      }
+      let postIdToDelete = null;
+
+      function deletePost(id) {
+        postIdToDelete = id;
+        showModal("정말 게시글을 삭제하시겠습니까?", {
+          title: "삭제 확인",
+          type: "delete",
+          callback: function () {
+            // 삭제 처리를 위한 콜백 함수
+            fetch(`/new/${postIdToDelete}`, { method: "DELETE" })
+              .then((response) => {
+                if (!response.ok) throw new Error("삭제 실패");
+                return response.json();
+              })
+              .then((result) => {
+                if (result.success) {
+                  location.href = "/new";
+                } else {
+                  showModal(result.message || "삭제에 실패했습니다.", {
+                    title: "오류",
+                  });
+                }
+              })
+              .catch((error) => {
+                console.error("Error:", error);
+                showModal("삭제 중 오류가 발생했습니다.", {
+                  title: "오류",
+                });
+              });
+          },
+        });
+      }
+      // function deletePost(id) {
+      //   if (confirm("정말 삭제하시겠습니까?")) {
+      //     fetch(`/new/${id}`, { method: "DELETE" })
+      //       .then((response) => {
+      //         if (!response.ok) {
+      //           throw new Error("삭제 실패");
+      //         }
+      //         return response.json();
+      //       })
+      //       .then((result) => {
+      //         if (result.success) {
+      //           location.href = "/new";
+      //         } else {
+      //           alert(result.message || "삭제 실패");
+      //         }
+      //       })
+      //       .catch((error) => {
+      //         console.error("Error:", error);
+      //         alert("삭제 중 오류가 발생했습니다.");
+      //       });
+      //   }
+      // }
+    </script>
+  </body>
+</html>

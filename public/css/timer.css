@@ -1,0 +1,91 @@
+.timer-container {
+  font-family: "Arial", sans-serif;
+  max-width: 600px;
+  margin: 50px auto;
+  text-align: center;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(145deg, #fff, #f0f0f0);
+}
+
+.server-time {
+  font-size: 1rem;
+  color: #666;
+  margin-top: 20px;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 5px;
+}
+
+.current-time {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 20px 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.date-info {
+  font-size: 1.2rem;
+  color: #7f8c8d;
+  margin-bottom: 30px;
+}
+
+.world-times {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.world-time-card {
+  padding: 15px;
+  border-radius: 10px;
+  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.world-time-card:hover {
+  transform: translateY(-5px);
+}
+
+.city-name {
+  color: #34495e;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.city-time {
+  color: #e74c3c;
+  font-size: 1.2rem;
+}
+
+.timer-controls {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.timer-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  background: #3498db;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.timer-btn:hover {
+  background: #2980b9;
+  transform: scale(1.05);
+}
+
+.stopwatch {
+  font-size: 2rem;
+  margin: 20px 0;
+  color: #2c3e50;
+}

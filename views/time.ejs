@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>세계 시계 & 타이머</title>
+    <link rel="stylesheet" href="timer.css" />
+  </head>
+  <body>
+    <div class="timer-container">
+      <div class="server-time">서버 시간: <%= data %></div>
+      <div class="current-time"></div>
+      <div class="date-info"></div>
+
+      <div class="stopwatch">00:00:00</div>
+      <div class="timer-controls">
+        <button class="timer-btn" id="startBtn" onclick="startStopwatch()">
+          시작
+        </button>
+        <button class="timer-btn" onclick="resetStopwatch()">리셋</button>
+      </div>
+
+      <div class="world-times">
+        <div class="world-time-card">
+          <div class="city-name">뉴욕</div>
+          <div class="city-time" data-city="New York"></div>
+        </div>
+        <div class="world-time-card">
+          <div class="city-name">런던</div>
+          <div class="city-time" data-city="London"></div>
+        </div>
+        <div class="world-time-card">
+          <div class="city-name">도쿄</div>
+          <div class="city-time" data-city="Tokyo"></div>
+        </div>
+        <div class="world-time-card">
+          <div class="city-name">시드니</div>
+          <div class="city-time" data-city="Sydney"></div>
+        </div>
+      </div>
+    </div>
+    <script src="/timer.js"></script>
+  </body>
+</html>

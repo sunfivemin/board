@@ -1,0 +1,83 @@
+<div class="write-section">
+  <form
+    class="form-box"
+    action="/add"
+    method="POST"
+    onsubmit="return checkLogin()"
+    enctype="multipart/form-data"
+  >
+    <h4>글쓰기</h4>
+    <input name="title" placeholder="제목을 입력하세요" required />
+    <textarea
+      name="content"
+      placeholder="내용을 입력하세요"
+      required
+    ></textarea>
+    <select name="category">
+      <option value="일반">일반</option>
+      <option value="공지">공지</option>
+      <option value="질문">질문</option>
+    </select>
+
+    <div class="image-upload-container">
+      <label for="img1" class="image-upload-label">
+        이미지 업로드
+        <br />
+        (클릭하거나 파일을 끌어다 놓으세요)
+      </label>
+      <input
+        type="file"
+        id="img1"
+        name="img1"
+        accept="image/*"
+        class="image-upload-input"
+        onChange="previewImage(this)"
+      />
+      <div class="preview-container">
+        <img id="preview" class="preview-image" />
+      </div>
+    </div>
+
+    <button type="submit">작성하기</button>
+  </form>
+</div>
+
+<script>
+  function previewImage(input) {
+    const preview = document.getElementById("preview");
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        preview.src = e.target.result;
+        preview.style.display = "block";
+      };
+
+      reader.readAsDataURL(input.files[0]);
+    }
+  }
+
+  // 드래그 앤 드롭 기능
+  const dropZone = document.querySelector(".image-upload-container");
+  const fileInput = document.querySelector(".image-upload-input");
+
+  dropZone.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    dropZone.style.borderColor = "var(--color-primary)";
+  });
+
+  dropZone.addEventListener("dragleave", (e) => {
+    e.preventDefault();
+    dropZone.style.borderColor = "var(--color-border)";
+  });
+
+  dropZone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    dropZone.style.borderColor = "var(--color-border)";
+
+    if (e.dataTransfer.files.length) {
+      fileInput.files = e.dataTransfer.files;
+      previewImage(fileInput);
+    }
+  });
+</script>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>게시글 수정</title>
+    <link rel="stylesheet" href="/css/main.css">  
+    <script src="/js/nav.js" defer></script>   
+
+  </head>
+  <body>
+    <%- include('../partials/nav') %>
+    
+    <div class="write-container">
+      <form 
+        action="/new/edit/<%= post._id %>" 
+        method="POST" 
+        class="write-form"
+        enctype="multipart/form-data"
+      >
+        <div class="form-group">
+          <label for="category">카테고리</label>
+          <select name="category" id="category" class="form-input">
+            <option value="일반" <%= post.category === '일반' ? 'selected' : '' %>>일반</option>
+            <option value="공지" <%= post.category === '공지' ? 'selected' : '' %>>공지</option>
+            <option value="질문" <%= post.category === '질문' ? 'selected' : '' %>>질문</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="title">제목</label>
+          <input 
+            type="text" 
+            id="title" 
+            name="title" 
+            required 
+            maxlength="100" 
+            class="form-input"
+            value="<%= post.title %>"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="content">내용</label>
+          <textarea 
+            id="content" 
+            name="content" 
+            required 
+            maxlength="10000"
+            class="form-input content-textarea"
+          ><%= post.content %></textarea>
+        </div>
+
+        <div class="form-group">
+          <div class="image-upload-container">
+            <% if (post.img) { %>
+              <div class="current-image">
+                <p>현재 이미지</p>
+                <img src="<%= post.img %>" alt="현재 이미지">
+              </div>
+            <% } %>
+            <label for="img1" class="image-upload-label">
+              <%= post.img ? '이미지 변경하기' : '이미지 업로드' %>
+              <br />
+              (클릭하거나 파일을 끌어다 놓으세요)
+            </label>
+            <input
+              type="file"
+              id="img1"
+              name="img1"
+              accept="image/*"
+              class="image-upload-input"
+              onChange="previewImage(this)"
+            />
+            <div class="preview-container">
+              <img id="preview" class="preview-image" style="display: none;" />
+            </div>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button type="button" onclick="history.back()" class="cancel-btn">취소</button>
+          <button type="submit" class="submit-btn">수정하기</button>
+        </div>
+      </form>
+    </div>
+
+    <script>
+      function previewImage(input) {
+        const preview = document.getElementById('preview');
+        if (input.files && input.files[0]) {
+          const reader = new FileReader();
+          
+          reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+          }
+          
+          reader.readAsDataURL(input.files[0]);
+        }
+      }
+
+      // 드래그 앤 드롭 기능
+      const dropZone = document.querySelector('.image-upload-container');
+      const fileInput = document.querySelector('.image-upload-input');
+
+      dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.style.borderColor = '#007bff';
+      });
+
+      dropZone.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        dropZone.style.borderColor = '#ccc';
+      });
+
+      dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.style.borderColor = '#ccc';
+        
+        if (e.dataTransfer.files.length) {
+          fileInput.files = e.dataTransfer.files;
+          previewImage(fileInput);
+        }
+      });
+    </script>
+  </body>
+</html>
