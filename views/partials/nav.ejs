@@ -1,13 +1,13 @@
 <nav class="nav">
-  <div class="nav-brand"><a href="/list">SEONOH</a></div>
+  <div class="nav-brand"><a href="/post/list">SEONOH</a></div>
   <button class="hamburger" aria-label="메뉴 열기" aria-expanded="false">
     <span></span>
     <span></span>
     <span></span>
   </button>
   <div class="nav-links">
-    <a href="/new">게시판</a>
-    <a href="/new/write">글쓰기</a>
+    <a href="/post">게시판</a>
+    <a href="/post/write">글쓰기</a>
   </div>
   <div class="user-menu">
     <button class="user-menu-btn" aria-label="사용자 메뉴">
@@ -31,10 +31,10 @@
         <span><%= user.username %></span>
       </div>
       <a href="/users/profile">마이페이지</a>
-      <a href="/logout">로그아웃</a>
+      <a href="/auth/logout">로그아웃</a>
       <% } else { %>
-      <a href="/login">로그인</a>
-      <a href="/signup">회원가입</a>
+      <a href="/auth/signup">회원가입</a>
+      <a href="/auth/login">로그인</a>
       <% } %>
     </div>
   </div>

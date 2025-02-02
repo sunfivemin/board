@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <%- include('../partials/head') %>
     <title>로그인</title>
     <link rel="stylesheet" href="/css/main.css" />
     <script src="/js/nav.js" defer></script>
@@ -11,7 +10,7 @@
     <%- include('../partials/nav') %>
 
     <div class="auth-container">
-      <form class="auth-form" action="/login" method="POST">
+      <form class="auth-form" action="/auth/login" method="POST">
         <h4>로그인</h4>
 
         <% if (error) { %>
@@ -36,7 +35,7 @@
         <button type="submit">로그인</button>
 
         <div class="auth-links">
-          계정이 없으신가요? <a href="/signup">회원가입</a>
+          계정이 없으신가요? <a href="/auth/signup">회원가입</a>
         </div>
       </form>
     </div>
