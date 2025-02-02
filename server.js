@@ -23,10 +23,11 @@ app.use(
   session({
     secret: "alstjsdh1",
     resave: false,
-    // 유저가 로그인 안해도세션을 저장해둘지 여부
     saveUninitialized: false,
-    // 유저가 요청날릴 때 마다 session데이터를 다시 갱신할건지 여부
-    maxAge: 24 * 60 * 60 * 1000, // 24시간
+    cookie: {
+      maxAge: 24 * 60 * 60 * 1000,
+      secure: process.env.NODE_ENV === "production",
+    },
     store: MongoStore.create({
       mongoUrl: process.env.DB_URL,
       dbName: "forum",
@@ -50,20 +51,30 @@ const { ObjectId } = require("mongodb");
 
 let db;
 const url = process.env.DB_URL;
-new MongoClient(url)
-  .connect()
-  .then((client) => {
-    console.log("DB 연결 성공!");
-    db = client.db("forum");
 
-    // 서버 띄우는 코드
-    app.listen(process.env.PORT, () => {
-      console.log("http://localhost:8080 에서 서버 실행중");
-    });
-  })
-  .catch((err) => {
+async function connectDB() {
+  try {
+    const client = await new MongoClient(url).connect();
+    console.log("DB 연결 성공!");
+    return client.db("forum");
+  } catch (err) {
     console.log(err);
-  });
+    throw err;
+  }
+}
+
+// 서버 시작 전에 DB 연결
+(async () => {
+  try {
+    db = await connectDB();
+    const port = process.env.PORT || 8080;
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
+  } catch (err) {
+    console.log("서버 시작 실패:", err);
+  }
+})();
 
 // s3
 const { S3Client } = require("@aws-sdk/client-s3");
