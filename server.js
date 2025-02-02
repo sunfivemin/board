@@ -4,8 +4,8 @@ const app = express();
 const methodOverride = require("method-override");
 const session = require("express-session");
 const passport = require("passport");
-const LocalStrategy = require("passport-local");
 const bcrypt = require("bcryptjs");
+const LocalStrategy = require("passport-local");
 const MongoStore = require("connect-mongo");
 require("dotenv").config();
 
