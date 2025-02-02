@@ -1,6 +1,12 @@
+const path = require("path");
+
 // express 라이브러리 사용하겠다.
 const express = require("express");
 const app = express();
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
 const methodOverride = require("method-override");
 const session = require("express-session");
 const passport = require("passport");
@@ -12,7 +18,7 @@ require("dotenv").config();
 // 미들웨어 설정
 app.use(methodOverride("_method"));
 // app.use(express.static(__dirname + "/public"));
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
