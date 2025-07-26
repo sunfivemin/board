@@ -2,6 +2,11 @@ const express = require("express");
 const router = express.Router();
 const { getDB } = require("../db/database");
 
+// 테스트 라우트
+router.get("/test", (req, res) => {
+  res.json({ message: "서버가 정상적으로 작동합니다!", timestamp: new Date() });
+});
+
 // 메인 페이지
 router.get("/", async (req, res) => {
   try {

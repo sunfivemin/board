@@ -29,6 +29,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 
+// 🧪 간단한 테스트 라우트 (DB 연결 전에 추가)
+app.get("/ping", (req, res) => {
+  res.json({ message: "서버가 작동합니다!", timestamp: new Date() });
+});
+
+app.get("/", (req, res) => {
+  res.send("메인 페이지 - 서버가 작동합니다!");
+});
+
 // 📡 DB 연결 및 서버 시작
 connectDB
   .then((client) => {
@@ -77,17 +86,10 @@ connectDB
       res.status(404).render("404", { path: req.path });
     });
 
-    // 🚀 서버 시작 (Vercel에서는 자동으로 포트 설정)
-    const PORT = process.env.PORT || 8080;
-    if (process.env.NODE_ENV !== "production") {
-      app.listen(PORT, () => {
-        console.log(`🌐 Server is running on http://localhost:${PORT}`);
-      });
-    }
+    console.log("✅ 서버 설정 완료!");
   })
   .catch((err) => {
     console.error("❌ 서버 실행 실패:", err);
-    // Vercel에서는 process.exit() 하지 않음
   });
 
 // Vercel 서버리스 함수를 위한 핸들러
