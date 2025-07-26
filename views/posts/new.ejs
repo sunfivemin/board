@@ -10,6 +10,10 @@
     <%- include('../partials/nav') %>
 
     <div class="container">
+      <div class="search-container">
+        <input class="search">
+        <button class="search-send">검색</button> 
+      </div>
       <div class="posts-container">
         <% posts.forEach(function(post, index) { %>
         <div class="post-item" onclick="location.href='/new/<%= post._id %>'">
@@ -57,5 +61,7 @@
     </div>
     <% } %>
     </div>
+
+    <script src="/js/search.js" defer></script>
   </body>
 </html>

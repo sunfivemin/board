@@ -59,6 +59,18 @@ body {
   padding: 0 20px;
 }
 
+.search {
+  margin-left: 20px;
+  padding: 5px;
+}
+.search-send {
+  padding: 6px 10px;
+  background: lightgray;
+  border: none;
+  border-radius: 5px;
+  vertical-align: middle;
+}
+
 /* ==========================================================================
      Navigation Styles
      ========================================================================== */
@@ -1466,6 +1478,55 @@ select.form-input {
     margin: 0;
     margin-bottom: 8px;
   }
+}
+
+/* ==========================================================================
+    search
+   ========================================================================== */
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 40px;
+  padding-top: 20px;
+}
+
+.search {
+  flex: 1;
+  max-width: 400px;
+  padding: 12px 16px;
+  border: 2px solid var(--color-input-border);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  transition: var(--transition-base);
+  background: white;
+  color: var(--color-text);
+}
+
+.search:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(34, 139, 230, 0.1);
+}
+
+.search-send {
+  padding: 12px 20px;
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-base);
+  box-shadow: 0 4px 12px rgba(34, 139, 230, 0.15);
+}
+
+.search-send:hover {
+  background: var(--color-primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(34, 139, 230, 0.2);
 }
 
 /* ==========================================================================

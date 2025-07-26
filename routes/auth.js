@@ -32,6 +32,7 @@ router.get("/logout", (req, res, next) => {
 
 // 회원가입 페이지
 router.get("/signup", (req, res) => {
+  console.log("회원가입 시도됨:", req.body);
   res.render("auth/signup", { error: null });
 });
 

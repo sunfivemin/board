@@ -1,0 +1,14 @@
+<!-- views/search.ejs -->
+<h2>🔍 "<%= keyword %>" 검색 결과</h2>
+
+<% if (posts.length === 0) { %>
+<p>검색 결과가 없습니다.</p>
+<% } else { %>
+<ul>
+  <% posts.forEach(post => { %>
+  <li>
+    <a href="/post/<%= post._id %>"><%= post.title %></a>
+  </li>
+  <% }) %>
+</ul>
+<% } %>

@@ -25,8 +25,8 @@ module.exports = function () {
   passport.use(
     new LocalStrategy(
       {
-        usernameField: "username", // 폼의 name 속성과 일치해야 함
-        passwordField: "password", // 폼의 name 속성과 일치해야 함
+        usernameField: "username",
+        passwordField: "password",
         session: true, // 세션 사용
         passReqToCallback: false,
       },

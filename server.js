@@ -1,6 +1,17 @@
 const express = require("express");
 const path = require("path");
+
+// 환경 변수 로딩
 require("dotenv").config();
+
+// 환경 변수 확인
+console.log("🔧 환경 변수 확인:");
+console.log("- NODE_ENV:", process.env.NODE_ENV);
+console.log("- DB_URL:", process.env.DB_URL ? "설정됨" : "설정되지 않음");
+console.log(
+  "- SESSION_SECRET:",
+  process.env.SESSION_SECRET ? "설정됨" : "설정되지 않음"
+);
 
 const methodOverride = require("method-override");
 const session = require("express-session");
@@ -10,7 +21,7 @@ const { connectDB, setDB } = require("./db/database");
 
 const app = express();
 
-// 기본 미들웨어 설정
+// 📦 기본 미들웨어
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.json());
@@ -18,60 +29,66 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 
-// DB 연결 및 서버 시작
+// 📡 DB 연결 및 서버 시작
 connectDB
   .then((client) => {
-    console.log("DB연결성공");
+    console.log("✅ DB 연결 성공!");
     setDB(client.db("forum"));
 
-    // Session 설정
+    // 💾 세션 설정
     app.use(
       session({
-        secret: "alstjsdh1",
+        secret: process.env.SESSION_SECRET || "alstjsdh1",
         resave: false,
         saveUninitialized: false,
         store: MongoStore.create({
           mongoUrl: process.env.DB_URL,
           dbName: "forum",
         }),
+        cookie: {
+          secure: process.env.NODE_ENV === "production",
+          maxAge: 24 * 60 * 60 * 1000, // 24시간
+        },
       })
     );
 
-    // Passport 설정
+    // 🔐 패스포트 설정
     app.use(passport.initialize());
     app.use(passport.session());
-
-    // Passport 설정 불러오기
     require("./config/passport")();
 
-    // 전역 미들웨어
+    // 🌍 user 전역으로 전달
     app.use((req, res, next) => {
       res.locals.user = req.user;
       next();
     });
 
-    // 라우터 설정
-    app.use("/", require("./routes/index")); // 메인 페이지
-    app.use("/auth", require("./routes/auth")); // 로그인/회원가입
-    app.use("/post", require("./routes/post")); // 게시글 관련
-    app.use("/new", require("./routes/post")); // 기존 /new 경로도 post 라우터 사용
-    app.use("/users", require("./routes/user")); // 사용자 관련
-    app.use("/list", require("./routes/post")); // list도 post 라우터 사용
+    // 🛣️ 라우터 등록
+    app.use("/", require("./routes/index"));
+    app.use("/auth", require("./routes/auth"));
+    app.use("/post", require("./routes/post"));
+    app.use("/new", require("./routes/post"));
+    app.use("/list", require("./routes/post"));
+    app.use("/users", require("./routes/user"));
+    app.use("/search", require("./routes/search"));
 
-    // 404 에러 처리
+    // 🚫 404 처리 (라우터들보다 항상 아래에 위치)
     app.use((req, res) => {
       res.status(404).render("404", { path: req.path });
     });
 
-    // 서버 시작
+    // 🚀 서버 시작 (Vercel에서는 자동으로 포트 설정)
     const PORT = process.env.PORT || 8080;
-    app.listen(PORT, () => {
-      console.log(`Server is running on http://localhost:${PORT}`);
-    });
+    if (process.env.NODE_ENV !== "production") {
+      app.listen(PORT, () => {
+        console.log(`🌐 Server is running on http://localhost:${PORT}`);
+      });
+    }
   })
   .catch((err) => {
-    console.error("서버 실행 실패:", err);
-    process.exit(1);
+    console.error("❌ 서버 실행 실패:", err);
+    // Vercel에서는 process.exit() 하지 않음
   });
 
+// Vercel 서버리스 함수를 위한 핸들러
 module.exports = app;
