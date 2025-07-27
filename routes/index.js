@@ -7,25 +7,14 @@ router.get("/test", (req, res) => {
   res.json({ message: "서버가 정상적으로 작동합니다!", timestamp: new Date() });
 });
 
-// 메인 페이지 (디버그 추가)
+// 메인 페이지 - 게시판 목록 직접 렌더링
 router.get("/", async (req, res) => {
   try {
     const db = getDB();
-    console.log("🔍 DB 연결 상태:", !!db);
-
     const page = parseInt(req.query.page) || 1;
-    const perPage = 5;
-
-    // 컬렉션 존재 확인
-    const collections = await db.listCollections().toArray();
-    console.log(
-      "📋 사용 가능한 컬렉션:",
-      collections.map((c) => c.name)
-    );
+    const perPage = 6;
 
     const totalPosts = await db.collection("new").countDocuments();
-    console.log("📊 총 게시글 수:", totalPosts);
-
     const totalPages = Math.ceil(totalPosts / perPage);
 
     let result = await db
@@ -36,18 +25,17 @@ router.get("/", async (req, res) => {
       .limit(perPage)
       .toArray();
 
-    console.log("📄 게시글 데이터:", result.length, "개");
-
-    res.render("posts/new", {
+    console.log("🎯 메인 페이지 렌더링: list/list.ejs");
+    res.render("list/list", {
       posts: result,
       currentPage: page,
       totalPages: totalPages,
-      perPage: perPage,
       totalPosts: totalPosts,
+      user: req.user,
     });
   } catch (error) {
-    console.error("❌ 메인 페이지 로드 중 에러:", error);
-    res.status(500).send("서버 에러가 발생했습니다: " + error.message);
+    console.error("메인 페이지 로드 중 에러:", error);
+    res.status(500).send("서버 에러가 발생했습니다.");
   }
 });
 

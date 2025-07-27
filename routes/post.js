@@ -5,35 +5,9 @@ const { getDB } = require("../db/database");
 const { upload } = require("../middleware/upload");
 const { ensureAuthenticated } = require("../middleware/auth");
 
-// 메인 페이지 (게시글 목록)
-router.get("/", async (req, res) => {
-  try {
-    const db = getDB();
-    const page = parseInt(req.query.page) || 1;
-    const perPage = 5;
-
-    const totalPosts = await db.collection("new").countDocuments();
-    const totalPages = Math.ceil(totalPosts / perPage);
-
-    let result = await db
-      .collection("new")
-      .find()
-      .sort({ createdAt: -1 })
-      .skip((page - 1) * perPage)
-      .limit(perPage)
-      .toArray();
-
-    res.render("posts/new", {
-      posts: result,
-      currentPage: page,
-      totalPages: totalPages,
-      perPage: perPage,
-      totalPosts: totalPosts,
-    });
-  } catch (error) {
-    console.error("메인 페이지 로드 중 에러:", error);
-    res.status(500).send("서버 에러가 발생했습니다.");
-  }
+// /post 경로로 접근 시 게시판 목록으로 리다이렉트
+router.get("/", (req, res) => {
+  res.redirect("/post/list");
 });
 
 // 게시글 목록 조회
