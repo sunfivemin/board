@@ -131,6 +131,11 @@ router.post(
       req.headers["content-type"] &&
       req.headers["content-type"].includes("multipart/form-data")
     ) {
+      console.log("🔧 S3 연결 상태 확인:");
+      console.log("📝 NODE_ENV:", process.env.NODE_ENV);
+      console.log("📝 S3_KEY 존재:", !!process.env.S3_KEY);
+      console.log("📝 S3_SECRET 존재:", !!process.env.S3_SECRET);
+
       upload.single("img1")(req, res, next);
     } else {
       next();
