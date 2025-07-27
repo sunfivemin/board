@@ -73,7 +73,7 @@ app.get("/test", (req, res) => {
     app.use("/", require("./routes/index"));
     app.use("/auth", require("./routes/auth"));
     app.use("/post", require("./routes/post"));
-    app.use("/new", require("./routes/post"));
+    app.use("/new", require("./routes/new"));
     app.use("/list", require("./routes/post"));
     app.use("/users", require("./routes/user"));
     app.use("/search", require("./routes/search"));

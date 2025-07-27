@@ -1,101 +1,61 @@
-# 🚀 Render 배포 가이드
+# Render 배포 가이드
 
-## 📋 사전 준비
+## 1. 기본 설정
 
-### 1. MongoDB Atlas 설정
+### 환경 변수 설정
 
-- MongoDB Atlas 계정 생성
-- 클러스터 생성 (무료 티어 가능)
-- 데이터베이스 사용자 생성
-- IP 화이트리스트 설정 (0.0.0.0/0으로 모든 IP 허용)
-- 연결 문자열 복사
-
-### 2. GitHub 저장소 준비
-
-- 코드를 GitHub에 푸시
-- 저장소가 public이거나 Render에서 접근 가능해야 함
-
-## 🔧 Render 배포 단계
-
-### 1. Render 계정 생성
-
-- [render.com](https://render.com)에서 계정 생성
-- GitHub 계정으로 로그인
-
-### 2. 새 Web Service 생성
-
-1. **Dashboard** → **New** → **Web Service**
-2. **Connect repository**에서 GitHub 저장소 선택
-3. **Configure service** 설정:
-   - **Name:** `seonoh-forum`
-   - **Environment:** `Node`
-   - **Build Command:** `npm install`
-   - **Start Command:** `npm start`
-   - **Plan:** `Free`
-
-### 3. 환경 변수 설정
-
-**Environment Variables** 섹션에서 추가:
-
-| Key              | Value                                                                                   |
-| ---------------- | --------------------------------------------------------------------------------------- |
-| `NODE_ENV`       | `production`                                                                            |
-| `DB_URL`         | `mongodb+srv://username:password@cluster.mongodb.net/forum?retryWrites=true&w=majority` |
-| `SESSION_SECRET` | `your-secret-key-here`                                                                  |
-
-### 4. 배포 실행
-
-- **Create Web Service** 클릭
-- 자동으로 빌드 및 배포 시작
-- 배포 완료 후 제공되는 URL로 접속
-
-## 🔍 배포 확인
-
-### 1. 헬스 체크
+Render 대시보드 → Environment Variables에서 다음을 설정:
 
 ```
-https://your-app-name.onrender.com/ping
+DB_URL=mongodb+srv://username:password@cluster.mongodb.net/database
+SESSION_SECRET=your_session_secret_key
 ```
 
-### 2. 메인 페이지
+## 2. AWS S3 설정 (이미지 업로드용)
+
+### AWS S3 버킷 생성
+
+1. AWS S3 콘솔에서 새 버킷 생성
+2. 버킷 이름: `sunohforum` (또는 원하는 이름)
+3. 리전: `ap-northeast-2` (서울)
+
+### IAM 사용자 생성
+
+1. AWS IAM 콘솔에서 새 사용자 생성
+2. 권한: `AmazonS3FullAccess` 또는 커스텀 정책
+3. Access Key ID와 Secret Access Key 생성
+
+### 환경 변수 추가
+
+Render 대시보드에서 추가 환경 변수 설정:
 
 ```
-https://your-app-name.onrender.com
+S3_KEY=your_aws_access_key_id
+S3_SECRET=your_aws_secret_access_key
+NODE_ENV=production
 ```
 
-## 🛠️ 문제 해결
+## 3. 배포 후 확인
 
-### 빌드 실패
+### 이미지 업로드 테스트
 
-- **로그 확인:** Render Dashboard → Logs
-- **Node.js 버전:** package.json의 engines 확인
-- **의존성 문제:** npm install 로그 확인
+1. 게시글 작성 시 이미지 업로드
+2. 게시글 수정 시 이미지 변경
+3. AWS S3 버킷에서 업로드된 이미지 확인
 
-### 데이터베이스 연결 실패
+### 로그 확인
 
-- **DB_URL 확인:** MongoDB Atlas 연결 문자열 정확성
-- **IP 화이트리스트:** 0.0.0.0/0으로 설정
-- **사용자 권한:** 데이터베이스 사용자 권한 확인
+Render 대시보드 → Logs에서 오류 메시지 확인
 
-### 세션 문제
+## 4. 문제 해결
 
-- **SESSION_SECRET:** 충분히 긴 랜덤 문자열 사용
-- **HTTPS:** Render는 자동으로 HTTPS 제공
+### S3 인증 오류
 
-## 📊 무료 티어 제한
+- 환경 변수 `S3_KEY`, `S3_SECRET` 확인
+- IAM 사용자 권한 확인
+- 버킷 이름과 리전 확인
 
-- **월 사용량:** 750시간
-- **자동 슬립:** 15분 비활성 시 슬립
-- **첫 요청 시:** 약 30초 대기 시간
-- **동시 요청:** 제한적
+### 이미지 업로드 실패
 
-## 🔄 자동 배포
-
-- **GitHub 푸시 시:** 자동 배포
-- **브랜치:** main/master 브랜치 변경 시
-- **롤백:** 이전 배포로 쉽게 되돌리기 가능
-
-## 💰 비용
-
-- **무료 티어:** 월 750시간
-- **유료 플랜:** $7/월부터 (항상 온라인)
+- `NODE_ENV=production` 설정 확인
+- S3 버킷 접근 권한 확인
