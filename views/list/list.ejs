@@ -13,14 +13,15 @@
     <%- include('../partials/nav') %>
     <%- include('../partials/modal') %>
     
-    <section class="hero">
+    <div class="page-wrapper">
+      <section class="hero">
       <div class="hero-content">
         <h1>⚡ 개발 노트</h1>
         <p>매일매일 새롭게 배운 기술과 면접 노하우를 기록하는 공간</p>
         <div class="hero-stats">
           <div class="stat-item">
             <span class="stat-number"><%= totalPosts %></span>
-            <span class="stat-label">게시글</span>
+            <span class="stat-label">개의 학습 기록</span>
           </div>
         </div>
       </div>
@@ -74,9 +75,11 @@
       <% } %>
     </div>
 
-    <footer>
-      <p>© 2025 DIGIZINE. All rights reserved.</p>
-    </footer>
+      </div> <!-- page-wrapper 닫기 -->
+      
+      <footer>
+        <p>© 2025 DIGIZINE. All rights reserved.</p>
+      </footer>
 
     <script>
       const isLoggedIn = '<%= !!user %>' === 'true';

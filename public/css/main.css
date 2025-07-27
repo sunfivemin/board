@@ -48,6 +48,9 @@
 body {
   background-color: var(--color-background-secondary);
   color: var(--color-text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* ==========================================================================
@@ -216,16 +219,16 @@ body {
      ========================================================================== */
 .hero {
   margin-top: 74px;
-  min-height: 40vh; /* 60vh에서 40vh로 줄임 */
+  min-height: 30vh;
   position: relative;
   overflow: visible;
-  background: linear-gradient(135deg, #228be6 0%, #15aabf 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   display: flex;
-  align-items: center; /* flex-start에서 center로 변경 */
+  align-items: center;
   justify-content: center;
   color: white;
   text-align: center;
-  padding: 3rem 1rem; /* 4rem에서 3rem으로 줄임 */
+  padding: 2rem 1rem;
 }
 
 .hero-content {
@@ -259,12 +262,13 @@ body {
 
 .stat-item {
   text-align: center;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
   border-radius: var(--radius-lg);
-  padding: 1.2rem 1.8rem; /* 1.5rem 2rem에서 1.2rem 1.8rem으로 줄임 */
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: var(--transition-base);
+  padding: 1.5rem 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
 
 .stat-item:hover {
@@ -362,11 +366,26 @@ body {
   position: relative;
   overflow: hidden;
   border-radius: var(--radius-lg);
-  transition: var(--transition-base);
+  transition: all 0.3s ease;
+  background: white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.featured-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #228be6, #15aabf);
+  z-index: 1;
 }
 
 .featured-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
 .featured-card img {
@@ -389,8 +408,43 @@ body {
   left: 0;
   right: 0;
   padding: 2rem;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
   color: white;
+  backdrop-filter: blur(10px);
+}
+
+.featured-card-content .category {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-bottom: 0.8rem;
+  backdrop-filter: blur(10px);
+}
+
+.featured-card-content h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  line-height: 1.4;
+}
+
+.featured-card-content p {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+.featured-card-content .post-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  opacity: 0.8;
 }
 
 /* ==========================================================================
@@ -959,11 +1013,16 @@ select.form-input {
 /* ==========================================================================
      Footer Styles
      ========================================================================== */
+.page-wrapper {
+  flex: 1;
+}
+
 footer {
   background: var(--color-text);
   color: white;
-  padding: 4rem 2rem;
+  padding: 2rem;
   text-align: center;
+  margin-top: auto;
 }
 
 /* Profile Styles */
