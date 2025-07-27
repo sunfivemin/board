@@ -76,15 +76,35 @@
           type: "delete",
           callback: function () {
             // 삭제 처리를 위한 콜백 함수
+            console.log("🗑️ 삭제 요청 시작:", postIdToDelete);
             fetch(`/new/${postIdToDelete}`, { method: "DELETE" })
               .then((response) => {
-                if (!response.ok) throw new Error("삭제 실패");
+                console.log(
+                  "📡 서버 응답:",
+                  response.status,
+                  response.statusText
+                );
+                if (response.status === 401) {
+                  console.log("❌ 로그인 필요");
+                  showModal("로그인이 필요합니다.", {
+                    title: "로그인 필요",
+                    type: "login",
+                    callback: () => (window.location.href = "/auth/login"),
+                  });
+                  return null;
+                }
+                if (!response.ok) {
+                  return response.json().then((data) => {
+                    console.log("❌ 서버 에러:", data);
+                    throw new Error(data.message || "삭제 실패");
+                  });
+                }
                 return response.json();
               })
               .then((result) => {
-                if (result.success) {
+                if (result && result.success) {
                   location.href = "/new";
-                } else {
+                } else if (result) {
                   showModal(result.message || "삭제에 실패했습니다.", {
                     title: "오류",
                   });
@@ -92,7 +112,7 @@
               })
               .catch((error) => {
                 console.error("Error:", error);
-                showModal("삭제 중 오류가 발생했습니다.", {
+                showModal(error.message || "삭제 중 오류가 발생했습니다.", {
                   title: "오류",
                 });
               });

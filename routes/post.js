@@ -58,6 +58,7 @@ router.get("/list", async (req, res) => {
       posts: result,
       currentPage: page,
       totalPages: totalPages,
+      totalPosts: totalPosts,
       user: req.user,
     });
   } catch (error) {
@@ -77,7 +78,7 @@ router.post("/add", upload.single("img1"), async (req, res) => {
     return res.send(`
      <script>
        alert('로그인이 필요합니다.');
-       window.location.href = '/login';
+       window.location.href = '/auth/login';
      </script>
    `);
   }
@@ -230,16 +231,53 @@ router.post("/edit/:id", ensureAuthenticated, async (req, res) => {
 });
 
 // 게시글 삭제
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", ensureAuthenticated, async (req, res) => {
+  console.log("🗑️ 삭제 요청 받음:", req.params.id);
+  console.log("👤 현재 사용자:", req.user);
+
   try {
     const db = getDB();
-    await db.collection("new").deleteOne({
+
+    // 게시글 작성자 확인
+    const post = await db.collection("new").findOne({
       _id: new ObjectId(req.params.id),
     });
+
+    console.log("📄 찾은 게시글:", post);
+
+    if (!post) {
+      console.log("❌ 게시글을 찾을 수 없음");
+      return res
+        .status(404)
+        .json({ success: false, message: "게시글을 찾을 수 없습니다." });
+    }
+
+    console.log("🔍 작성자 비교:", {
+      postAuthor: post.author.toString(),
+      currentUser: req.user._id.toString(),
+      isMatch: post.author.toString() === req.user._id.toString(),
+    });
+
+    // 작성자만 삭제 가능
+    if (post.author.toString() !== req.user._id.toString()) {
+      console.log("❌ 삭제 권한 없음");
+      return res
+        .status(403)
+        .json({ success: false, message: "삭제 권한이 없습니다." });
+    }
+
+    const deleteResult = await db.collection("new").deleteOne({
+      _id: new ObjectId(req.params.id),
+    });
+
+    console.log("✅ 삭제 결과:", deleteResult);
+
     res.json({ success: true });
   } catch (error) {
-    console.error("삭제 중 에러:", error);
-    res.status(500).json({ success: false });
+    console.error("❌ 삭제 중 에러:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "서버 오류가 발생했습니다." });
   }
 });
 

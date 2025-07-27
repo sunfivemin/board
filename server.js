@@ -32,9 +32,10 @@ app.get("/test", (req, res) => {
   });
 });
 
-// 📡 DB 연결 및 서버 시작
-connectDB
-  .then((client) => {
+// 📡 DB 연결 및 서버 시작 (async/await 방식으로 변경)
+(async () => {
+  try {
+    const client = await connectDB();
     console.log("✅ DB 연결 성공!");
     setDB(client.db("forum"));
 
@@ -81,11 +82,11 @@ connectDB
     });
 
     console.log("✅ 전체 서버 설정 완료!");
-  })
-  .catch((err) => {
+  } catch (err) {
     console.error("❌ DB 연결 실패:", err);
     console.log("⚠️ DB 없이 기본 서버만 실행됩니다.");
-  });
+  }
+})();
 
 // 🚀 서버 시작
 const PORT = process.env.PORT || 8080;

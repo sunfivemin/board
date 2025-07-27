@@ -15,10 +15,14 @@
     
     <section class="hero">
       <div class="hero-content">
-        <h1>디지털 매거진</h1>
-        <p>트렌드와 라이프스타일을 담아내는 새로운 디지털 매거진</p>
-        
-        <%- include('./write') %>
+        <h1>면접 대비 게시판</h1>
+        <p>취업 준비생들을 위한 면접 질문과 답변을 공유하는 커뮤니티</p>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-number"><%= totalPosts %></span>
+            <span class="stat-label">게시글</span>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -35,7 +39,7 @@
             <div class="featured-card-content">
               <span class="category"><%= post.category || '일반' %></span>
               <h2><%= post.title %></h2>
-              <p><%= post.content %></p>
+              <p><%= post.content.length > 50 ? post.content.substring(0, 50) + '...' : post.content %></p>
               <div class="post-meta">
                 <span class="author"><%= post.authorName || '익명' %></span>
                 <span class="date">
@@ -52,19 +56,19 @@
     <div class="pagination">
       <% if (totalPages > 1) { %>
         <button 
-          onclick="location.href='/list?page=<%= currentPage - 1 %>'"
+          onclick="location.href='/post/list?page=<%= currentPage - 1 %>'"
           <%= currentPage === 1 ? 'disabled' : '' %>
         >이전</button>
 
         <% for(let i = 1; i <= totalPages; i++) { %>
           <button 
-            onclick="location.href='/list?page=<%= i %>'"
+            onclick="location.href='/post/list?page=<%= i %>'"
             class="<%= currentPage === i ? 'active' : '' %>"
           ><%= i %></button>
         <% } %>
 
         <button 
-          onclick="location.href='/list?page=<%= currentPage + 1 %>'"
+          onclick="location.href='/post/list?page=<%= currentPage + 1 %>'"
           <%= currentPage === totalPages ? 'disabled' : '' %>
         >다음</button>
       <% } %>

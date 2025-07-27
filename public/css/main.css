@@ -216,16 +216,16 @@ body {
      ========================================================================== */
 .hero {
   margin-top: 74px;
-  min-height: 60vh; /* height를 min-height로 변경 */
+  min-height: 40vh; /* 60vh에서 40vh로 줄임 */
   position: relative;
-  overflow: visible; /* hidden에서 visible로 변경 */
+  overflow: visible;
   background: linear-gradient(135deg, #228be6 0%, #15aabf 100%);
   display: flex;
-  align-items: flex-start; /* center에서 flex-start로 변경 */
+  align-items: center; /* flex-start에서 center로 변경 */
   justify-content: center;
   color: white;
   text-align: center;
-  padding: 4rem 1rem; /* 패딩 추가 */
+  padding: 3rem 1rem; /* 4rem에서 3rem으로 줄임 */
 }
 
 .hero-content {
@@ -237,15 +237,56 @@ body {
 }
 
 .hero-content h1 {
-  font-size: 2.5rem;
+  font-size: 2.2rem; /* 2.5rem에서 2.2rem으로 줄임 */
   font-weight: 700;
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem; /* 1rem에서 0.8rem으로 줄임 */
 }
 
 .hero-content p {
-  font-size: 1.2rem;
+  font-size: 1.1rem; /* 1.2rem에서 1.1rem으로 줄임 */
   opacity: 0.9;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem; /* 2rem에서 1.5rem으로 줄임 */
+}
+
+/* 기술블로그 통계 스타일 */
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem; /* 3rem에서 2rem으로 줄임 */
+  margin-top: 1.5rem; /* 2rem에서 1.5rem으로 줄임 */
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-lg);
+  padding: 1.2rem 1.8rem; /* 1.5rem 2rem에서 1.2rem 1.8rem으로 줄임 */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: var(--transition-base);
+}
+
+.stat-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.stat-number {
+  display: block;
+  font-size: 2.2rem; /* 2.5rem에서 2.2rem으로 줄임 */
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.4rem; /* 0.5rem에서 0.4rem으로 줄임 */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
 }
 
 /* 배경 효과 */
@@ -281,6 +322,23 @@ body {
 
   .hero-content p {
     font-size: 1.1rem;
+  }
+
+  .hero-stats {
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .stat-item {
+    padding: 1rem 1.5rem;
+  }
+
+  .stat-number {
+    font-size: 2rem;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
   }
 }
 

@@ -4,7 +4,7 @@ let modalConfirmCallback = null;
 // 로그인 페이지로 이동하는 함수 추가
 function goToLogin() {
   hideModal();
-  window.location.href = "/login";
+  window.location.href = "/auth/login";
 }
 
 // 일반 로그인 체크 함수 추가
