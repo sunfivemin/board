@@ -59,3 +59,24 @@ Render 대시보드 → Logs에서 오류 메시지 확인
 
 - `NODE_ENV=production` 설정 확인
 - S3 버킷 접근 권한 확인
+
+## 5. 환경 변수 확인 방법
+
+### Render 대시보드에서 확인
+
+1. Render 대시보드 → 해당 서비스 선택
+2. Environment → Environment Variables
+3. 다음 변수들이 설정되어 있는지 확인:
+   - `NODE_ENV=production`
+   - `S3_KEY=your_aws_access_key`
+   - `S3_SECRET=your_aws_secret_key`
+   - `DB_URL=your_mongodb_connection_string`
+   - `SESSION_SECRET=your_session_secret`
+
+### 로그에서 확인
+
+Render 대시보드 → Logs에서 다음 메시지 확인:
+
+- "Error: Resolved credential object is not valid" → S3 인증 문제
+- "MongoDB 연결 실패" → DB 연결 문제
+- "multer" 관련 오류 → 파일 업로드 문제
