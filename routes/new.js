@@ -4,6 +4,52 @@ const { ObjectId } = require("mongodb");
 const { getDB } = require("../db/database");
 const { upload } = require("../middleware/upload");
 
+// 게시글 작성 페이지 (/new/write)
+router.get("/write", async (req, res) => {
+  res.render("posts/new-write");
+});
+
+// 게시글 작성 처리 (POST /new/add)
+router.post("/add", upload.single("img1"), async (req, res) => {
+  console.log("📝 게시글 작성 요청");
+  console.log("📝 요청 바디:", req.body);
+  console.log("📁 업로드된 파일:", req.file);
+
+  try {
+    const db = getDB();
+
+    if (!req.body.title || !req.body.content) {
+      return res.status(400).send("제목과 내용을 모두 입력해주세요!");
+    }
+
+    const postData = {
+      title: req.body.title.trim(),
+      content: req.body.content.trim(),
+      category: req.body.category || "일반",
+      author: req.user ? req.user.username : "익명",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    // 이미지가 업로드된 경우에만 이미지 필드 추가
+    if (req.file) {
+      // 로컬 개발 환경에서는 상대 경로 사용
+      if (process.env.NODE_ENV === "production") {
+        postData.img = req.file.location; // S3 URL
+      } else {
+        postData.img = "/uploads/" + req.file.filename; // 로컬 경로
+      }
+    }
+
+    const result = await db.collection("new").insertOne(postData);
+    console.log("✅ 게시글 작성 완료:", result.insertedId);
+    res.redirect("/new");
+  } catch (error) {
+    console.error("게시글 작성 중 에러:", error);
+    res.status(500).send("서버 에러가 발생했습니다.");
+  }
+});
+
 // /new 경로 - 게시판 목록
 router.get("/", async (req, res) => {
   try {
