@@ -1,41 +1,45 @@
 <nav class="nav">
-  <div class="nav-brand"><a href="/post/list">SEONOH</a></div>
-  <button class="hamburger" aria-label="메뉴 열기" aria-expanded="false">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
-  <div class="nav-links">
-    <a href="/new">게시판</a>
-    <a href="/new/write">글쓰기</a>
-  </div>
-  <div class="user-menu">
-    <button class="user-menu-btn" aria-label="사용자 메뉴">
-      <svg
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-        <circle cx="12" cy="7" r="4"></circle>
-      </svg>
-    </button>
-    <div class="user-dropdown">
-      <% if (locals.user) { %>
-      <div class="user-info">
-        <span><%= user.username %></span>
+  <div class="nav-content">
+    <div class="nav-brand"><a href="/post/list">SEONOH</a></div>
+    <div class="nav-links">
+      <a href="/new">게시판</a>
+      <a href="/new/write">글쓰기</a>
+    </div>
+    <div class="nav-right">
+      <div class="user-menu">
+        <button class="user-menu-btn" aria-label="사용자 메뉴">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </button>
+        <div class="user-dropdown">
+          <% if (locals.user) { %>
+          <div class="user-info">
+            <span><%= user.username %></span>
+          </div>
+          <a href="/users/profile">마이페이지</a>
+          <a href="/auth/logout">로그아웃</a>
+          <% } else { %>
+          <a href="/auth/signup">회원가입</a>
+          <a href="/auth/login">로그인</a>
+          <% } %>
+        </div>
       </div>
-      <a href="/users/profile">마이페이지</a>
-      <a href="/auth/logout">로그아웃</a>
-      <% } else { %>
-      <a href="/auth/signup">회원가입</a>
-      <a href="/auth/login">로그인</a>
-      <% } %>
+      <button class="hamburger" aria-label="메뉴 열기" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </div>
   </div>
 </nav>

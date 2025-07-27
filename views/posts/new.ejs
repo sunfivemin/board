@@ -12,14 +12,24 @@
     <div class="page-wrapper">
       <div class="container">
       <div class="search-container">
-        <input class="search">
-        <button class="search-send">검색</button> 
+        <div class="search-wrapper">
+          <input class="search" placeholder="제목, 내용, 카테고리로 검색..." id="searchInput">
+          <button class="search-send" onclick="performSearch()">
+            <span>🔍</span>
+            <span>검색</span>
+          </button>
+        </div>
       </div>
       <div class="posts-container">
         <% posts.forEach(function(post, index) { %>
         <div class="post-item" onclick="location.href='/new/<%= post._id %>'">
           <div class="post-number"><%= posts.length - index %></div>
-          <div class="post-category"><%= post.category || '일반' %></div>
+          <div class="post-category" data-category="<%= post.category || '기술스택' %>">
+            <% if (post.category === '일반') { %>기술스택
+            <% } else if (post.category === '공지') { %>면접준비
+            <% } else if (post.category === '질문') { %>학습일지
+            <% } else { %><%= post.category || '기술스택' %><% } %>
+          </div>
           <div class="post-title"><%= post.title %></div>
           <div class="post-date">
             <%= post.createdAt ? new
@@ -64,9 +74,29 @@
       </div> <!-- container 닫기 -->
     </div> <!-- page-wrapper 닫기 -->
 
-    <footer>
-      <p>© 2025 DIGIZINE. All rights reserved.</p>
-    </footer>
+           <footer>
+         <div class="footer-content">
+           <div class="footer-section">
+             <h3>SEONOH</h3>
+             <p>매일 성장하는 개발자 되기</p>
+           </div>
+           <div class="footer-section">
+             <h4>Quick Links</h4>
+             <ul>
+               <li><a href="/new">게시판</a></li>
+               <li><a href="/new/write">글쓰기</a></li>
+             </ul>
+           </div>
+           <div class="footer-section">
+             <h4>Contact</h4>
+             <p>📧 sunfivemin@gmail.com</p>
+             <p>💻 <a href="https://github.com/sunfivemin" target="_blank">GitHub</a></p>
+           </div>
+         </div>
+         <div class="footer-bottom">
+           <p>© 2025 SEONOH. Made with ❤️ for developers</p>
+         </div>
+       </footer>
 
     <script src="/js/search.js" defer></script>
   </body>

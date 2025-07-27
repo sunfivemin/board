@@ -1,7 +1,13 @@
 {
-  "name": "MyWebSite",
-  "short_name": "MySite",
+  "name": "SEONOH - 개발 노트",
+  "short_name": "SEONOH",
+  "description": "매일매일 새롭게 배운 기술과 면접 노하우를 기록하는 개발자 성장 공간",
   "icons": [
+    {
+      "src": "/images/favicon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
     {
       "src": "/images/web-app-manifest-192x192.png",
       "sizes": "192x192",
@@ -15,7 +21,9 @@
       "purpose": "maskable"
     }
   ],
-  "theme_color": "#ffffff",
+  "theme_color": "#2563eb",
   "background_color": "#ffffff",
-  "display": "standalone"
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/"
 }

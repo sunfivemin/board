@@ -18,12 +18,12 @@
       <div class="hero-content">
         <h1>⚡ 개발 노트</h1>
         <p>매일매일 새롭게 배운 기술과 면접 노하우를 기록하는 공간</p>
-        <div class="hero-stats">
-          <div class="stat-item">
-            <span class="stat-number"><%= totalPosts %></span>
-            <span class="stat-label">개의 학습 기록</span>
-          </div>
-        </div>
+                   <div class="hero-stats">
+             <div class="stat-item">
+               <span class="stat-number"><%= totalPosts %></span>
+               <span class="stat-label">학습 기록</span>
+             </div>
+           </div>
       </div>
     </section>
 
@@ -38,7 +38,12 @@
               <img src="https://picsum.photos/600/400?random=<%= i %>" alt="<%= post.title %>" />
             <% } %>
             <div class="featured-card-content">
-              <span class="category"><%= post.category || '일반' %></span>
+              <span class="category" data-category="<%= post.category || '기술스택' %>">
+                <% if (post.category === '일반') { %>기술스택
+                <% } else if (post.category === '공지') { %>면접준비
+                <% } else if (post.category === '질문') { %>학습일지
+                <% } else { %><%= post.category || '기술스택' %><% } %>
+              </span>
               <h2><%= post.title %></h2>
               <p><%= post.content.length > 50 ? post.content.substring(0, 50) + '...' : post.content %></p>
               <div class="post-meta">
@@ -77,9 +82,29 @@
 
       </div> <!-- page-wrapper 닫기 -->
       
-      <footer>
-        <p>© 2025 DIGIZINE. All rights reserved.</p>
-      </footer>
+             <footer>
+         <div class="footer-content">
+           <div class="footer-section">
+             <h3>SEONOH</h3>
+             <p>매일 성장하는 개발자 되기</p>
+           </div>
+           <div class="footer-section">
+             <h4>Quick Links</h4>
+             <ul>
+               <li><a href="/new">게시판</a></li>
+               <li><a href="/new/write">글쓰기</a></li>
+             </ul>
+           </div>
+           <div class="footer-section">
+             <h4>Contact</h4>
+             <p>📧 sunfivemin@gmail.com</p>
+             <p>💻 <a href="https://github.com/sunfivemin" target="_blank">GitHub</a></p>
+           </div>
+         </div>
+         <div class="footer-bottom">
+           <p>© 2025 SEONOH. Made with ❤️ for developers</p>
+         </div>
+       </footer>
 
     <script>
       const isLoggedIn = '<%= !!user %>' === 'true';

@@ -20,7 +20,11 @@ router.get("/", async (req, res) => {
     const results = await db
       .collection("new")
       .find({
-        title: { $regex: keyword, $options: "i" }, // 대소문자 무시하고 검색
+        $or: [
+          { title: { $regex: keyword, $options: "i" } }, // 제목에서 검색
+          { content: { $regex: keyword, $options: "i" } }, // 내용에서 검색
+          { category: { $regex: keyword, $options: "i" } }, // 카테고리에서 검색
+        ],
       })
       .sort({ createdAt: -1 })
       .toArray();

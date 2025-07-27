@@ -14,7 +14,15 @@
     <div class="container">
       <div class="detail-container">
         <div class="detail-header">
-          <span class="detail-category"><%= post.category || '일반' %></span>
+          <span
+            class="detail-category"
+            data-category="<%= post.category || '기술스택' %>"
+          >
+            <% if (post.category === '일반') { %>기술스택 <% } else if
+            (post.category === '공지') { %>면접준비 <% } else if (post.category
+            === '질문') { %>학습일지 <% } else { %><%= post.category ||
+            '기술스택' %><% } %>
+          </span>
           <h1 class="detail-title"><%= post.title %></h1>
           <div class="detail-meta">
             <span class="detail-author"

@@ -10,7 +10,8 @@
   <body>
     <%- include('../partials/nav') %>
     
-    <div class="write-container">
+    <div class="page-wrapper">
+      <div class="write-container">
       <form 
         action="/new/edit/<%= post._id %>" 
         method="POST" 
@@ -20,9 +21,9 @@
         <div class="form-group">
           <label for="category">카테고리</label>
           <select name="category" id="category" class="form-input">
-            <option value="일반" <%= post.category === '일반' ? 'selected' : '' %>>일반</option>
-            <option value="공지" <%= post.category === '공지' ? 'selected' : '' %>>공지</option>
-            <option value="질문" <%= post.category === '질문' ? 'selected' : '' %>>질문</option>
+            <option value="기술스택" <%= post.category === '기술스택' ? 'selected' : '' %>>기술스택</option>
+            <option value="면접준비" <%= post.category === '면접준비' ? 'selected' : '' %>>면접준비</option>
+            <option value="학습일지" <%= post.category === '학습일지' ? 'selected' : '' %>>학습일지</option>
           </select>
         </div>
 
@@ -82,7 +83,32 @@
           <button type="submit" class="submit-btn">수정하기</button>
         </div>
       </form>
-    </div>
+      </div> <!-- write-container 닫기 -->
+    </div> <!-- page-wrapper 닫기 -->
+
+    <footer>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>SEONOH</h3>
+          <p>매일 성장하는 개발자 되기</p>
+        </div>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="/new">게시판</a></li>
+            <li><a href="/new/write">글쓰기</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Contact</h4>
+          <p>📧 sunfivemin@gmail.com</p>
+          <p>💻 <a href="https://github.com/sunfivemin" target="_blank">GitHub</a></p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 SEONOH. Made with ❤️ for developers</p>
+      </div>
+    </footer>
 
     <script>
       function previewImage(input) {

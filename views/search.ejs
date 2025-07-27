@@ -1,14 +1,104 @@
-<!-- views/search.ejs -->
-<h2>🔍 "<%= keyword %>" 검색 결과</h2>
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <%- include('partials/head') %>
+    <title>검색 결과 - SEONOH</title>
+    <link rel="stylesheet" href="/css/main.css" />
+    <script src="/js/nav.js" defer></script>
+  </head>
+  <body>
+    <%- include('partials/nav') %>
 
-<% if (posts.length === 0) { %>
-<p>검색 결과가 없습니다.</p>
-<% } else { %>
-<ul>
-  <% posts.forEach(post => { %>
-  <li>
-    <a href="/post/<%= post._id %>"><%= post.title %></a>
-  </li>
-  <% }) %>
-</ul>
-<% } %>
+    <div class="page-wrapper">
+      <div class="search-results-container">
+        <div class="search-header">
+          <div class="search-icon">🔍</div>
+          <h1>"<%= keyword %>" 검색 결과</h1>
+          <p class="search-count">
+            <%= posts.length %>개의 게시글을 찾았습니다
+          </p>
+        </div>
+
+        <% if (posts.length === 0) { %>
+        <div class="no-results">
+          <div class="no-results-icon">😕</div>
+          <h2>검색 결과가 없습니다</h2>
+          <p>"<%= keyword %>"와 일치하는 게시글이 없습니다.</p>
+          <div class="search-suggestions">
+            <h3>검색 팁:</h3>
+            <ul>
+              <li>다른 키워드로 검색해보세요</li>
+              <li>키워드를 더 짧게 입력해보세요</li>
+              <li>오타가 없는지 확인해보세요</li>
+            </ul>
+          </div>
+          <button onclick="location.href='/'" class="btn btn-primary">
+            메인으로 돌아가기
+          </button>
+        </div>
+        <% } else { %>
+        <div class="search-results">
+          <% posts.forEach(post => { %>
+          <div
+            class="search-result-item"
+            onclick="location.href='/new/<%= post._id %>'"
+          >
+            <div
+              class="result-category"
+              data-category="<%= post.category || '기술스택' %>"
+            >
+              <% if (post.category === '일반') { %>기술스택 <% } else if
+              (post.category === '공지') { %>면접준비 <% } else if
+              (post.category === '질문') { %>학습일지 <% } else { %><%=
+              post.category || '기술스택' %><% } %>
+            </div>
+            <div class="result-content">
+              <h3 class="result-title"><%= post.title %></h3>
+              <p class="result-excerpt">
+                <%= post.content.length > 100 ? post.content.substring(0, 100) +
+                '...' : post.content %>
+              </p>
+              <div class="result-meta">
+                <span class="result-author"><%= post.author || '익명' %></span>
+                <span class="result-date">
+                  <%= post.createdAt ? new
+                  Date(post.createdAt).toLocaleDateString('ko-KR') : '날짜 없음'
+                  %>
+                </span>
+              </div>
+            </div>
+          </div>
+          <% }) %>
+        </div>
+        <% } %>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>SEONOH</h3>
+          <p>매일 성장하는 개발자 되기</p>
+        </div>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="/new">게시판</a></li>
+            <li><a href="/new/write">글쓰기</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Contact</h4>
+          <p>📧 sunfivemin@gmail.com</p>
+          <p>
+            💻
+            <a href="https://github.com/sunfivemin" target="_blank">GitHub</a>
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 SEONOH. Made with ❤️ for developers</p>
+      </div>
+    </footer>
+  </body>
+</html>
