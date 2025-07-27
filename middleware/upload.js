@@ -27,7 +27,7 @@ if (isProduction && hasS3Credentials) {
       key: function (req, file, cb) {
         cb(null, Date.now().toString());
       },
-      acl: "public-read", // 공개 읽기 권한 설정
+      // ACL 제거 - 버킷 정책으로 관리
     }),
   });
 } else {
