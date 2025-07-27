@@ -50,8 +50,10 @@ app.get("/test", (req, res) => {
           dbName: "forum",
         }),
         cookie: {
-          secure: process.env.NODE_ENV === "production",
+          secure: false, // Render에서 세션 문제 해결을 위해 false로 설정
           maxAge: 24 * 60 * 60 * 1000, // 24시간
+          httpOnly: true,
+          sameSite: "lax",
         },
       })
     );

@@ -12,15 +12,32 @@ router.get("/login", (req, res) => {
 });
 
 // 로그인 처리
-router.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/auth/login",
-    failureMessage: true,
-    badRequestMessage: "아이디와 비밀번호를 입력해주세요",
-  })
-);
+router.post("/login", (req, res, next) => {
+  console.log("🔐 로그인 요청 받음:", req.body);
+
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      console.error("❌ 인증 에러:", err);
+      return next(err);
+    }
+
+    if (!user) {
+      console.log("❌ 인증 실패:", info.message);
+      return res.redirect("/auth/login");
+    }
+
+    req.logIn(user, (err) => {
+      if (err) {
+        console.error("❌ 로그인 세션 에러:", err);
+        return next(err);
+      }
+
+      console.log("✅ 로그인 성공 및 세션 생성:", user.username);
+      console.log("🔍 세션 정보:", req.session);
+      return res.redirect("/");
+    });
+  })(req, res, next);
+});
 
 // 로그아웃
 router.get("/logout", (req, res, next) => {
