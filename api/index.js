@@ -26,6 +26,14 @@ app.get("/test", (req, res) => {
     message: "테스트 성공!",
     server: "Vercel Serverless",
     timestamp: new Date(),
+    environment: {
+      NODE_ENV: process.env.NODE_ENV,
+      hasDB_URL: !!process.env.DB_URL,
+      hasSessionSecret: !!process.env.SESSION_SECRET,
+      DB_URL_preview: process.env.DB_URL
+        ? process.env.DB_URL.substring(0, 50) + "..."
+        : "없음",
+    },
   });
 });
 
