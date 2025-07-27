@@ -9,8 +9,8 @@ const hasS3Credentials = process.env.S3_KEY && process.env.S3_SECRET;
 
 let upload;
 
-// 임시로 S3 사용을 비활성화하고 로컬 저장소만 사용
-if (false && isProduction && hasS3Credentials) {
+// S3 사용 활성화 (AWS 설정 완료 후)
+if (isProduction && hasS3Credentials) {
   // 프로덕션 환경에서 S3 사용
   const s3 = new S3Client({
     region: "ap-northeast-2",
