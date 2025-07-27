@@ -9,11 +9,11 @@ const hasS3Credentials = process.env.S3_KEY && process.env.S3_SECRET;
 
 let upload;
 
-// S3 사용 활성화 (AWS 설정 완료 후)
+// S3 사용 활성화 (리전 수정 후)
 if (isProduction && hasS3Credentials) {
   // 프로덕션 환경에서 S3 사용
   const s3 = new S3Client({
-    region: "ap-northeast-2",
+    region: "ap-southeast-2", // 시드니 리전으로 변경
     credentials: {
       accessKeyId: process.env.S3_KEY,
       secretAccessKey: process.env.S3_SECRET,
