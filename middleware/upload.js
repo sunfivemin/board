@@ -9,7 +9,7 @@ const hasS3Credentials = process.env.S3_KEY && process.env.S3_SECRET;
 
 let upload;
 
-// S3 사용 활성화 (리전 수정 후)
+// S3 사용 활성화 (버킷 이름 수정 후)
 if (isProduction && hasS3Credentials) {
   // 프로덕션 환경에서 S3 사용
   const s3 = new S3Client({
@@ -23,7 +23,7 @@ if (isProduction && hasS3Credentials) {
   upload = multer({
     storage: multerS3({
       s3: s3,
-      bucket: "sunohforum",
+      bucket: "seonohforum", // 버킷 이름 수정
       key: function (req, file, cb) {
         cb(null, Date.now().toString());
       },
