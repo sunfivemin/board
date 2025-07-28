@@ -8,12 +8,12 @@ if (!url) {
   throw new Error("DB_URL environment variable is not set");
 }
 
-console.log("🔗 MongoDB 연결 시도 (Vercel 최적화)");
+console.log("🔗 MongoDB 연결 시도 (Render 서버)");
 
 let db;
 let client;
 
-// Vercel 서버리스에 최적화된 연결 설정
+// Render 서버에 최적화된 연결 설정
 const connectDB = async () => {
   try {
     if (client && client.topology && client.topology.isConnected()) {
@@ -24,16 +24,13 @@ const connectDB = async () => {
     console.log("🔄 새로운 MongoDB 연결 생성...");
 
     client = new MongoClient(url, {
-      // Vercel 서버리스 최적화 설정
-      serverSelectionTimeoutMS: 30000, // 30초로 증가!!!
-      connectTimeoutMS: 30000, // 30초
-      socketTimeoutMS: 0, // 무제한
-      maxPoolSize: 1, // 서버리스는 1개 연결만
-      minPoolSize: 0, // 최소 0개
-      maxIdleTimeMS: 30000, // 30초 후 연결 해제
-      waitQueueTimeoutMS: 5000, // 5초
+      // Render 서버 최적화 설정
+      serverSelectionTimeoutMS: 5000, // 5초
+      connectTimeoutMS: 10000, // 10초
+      maxPoolSize: 10, // 서버에서는 여러 연결 가능
+      minPoolSize: 1, // 최소 1개 연결 유지
+      maxIdleTimeMS: 30000, // 30초 후 유휴 연결 해제
       retryWrites: true,
-      w: "majority",
     });
 
     await client.connect();

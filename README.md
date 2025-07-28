@@ -5,8 +5,6 @@
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white)
 ![Express](https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white)
-![EJS](https://img.shields.io/badge/EJS-B4CA65?style=flat-square&logo=ejs&logoColor=black)
-![AWS S3](https://img.shields.io/badge/AWS_S3-FF9900?style=flat-square&logo=amazonaws&logoColor=white)
 
 [![Live Demo](https://img.shields.io/badge/Live-Demo-blue?style=for-the-badge)](https://board-fs9x.onrender.com)
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge&logo=github)](https://github.com/sunfivemin/board)
@@ -15,20 +13,7 @@
 
 ## 📖 프로젝트 소개
 
-신입 개발자로서 매일 새롭게 배우는 기술과 면접 준비 과정을 체계적으로 기록하고 관리하기 위해 개발한 개인 학습 관리 시스템입니다.
-
-### 🎯 개발 목적
-
-- **학습 내용 체계적 정리**: 새로 배운 기술을 카테고리별로 분류하여 정리
-- **면접 준비 도구**: 기술 면접 질문과 답변을 모아서 효율적인 면접 대비
-- **성장 과정 기록**: 개발자로서의 성장 과정을 시각적으로 추적
-- **포트폴리오 겸용**: 학습한 내용을 정리하면서 동시에 포트폴리오 역할
-
-### ✨ 핵심 가치
-
-```
-"어제보다 나은 개발자가 되자"
-```
+매일 새롭게 배우는 기술과 면접 준비 과정을 체계적으로 기록하고 관리하기 위해 개발한 개인 학습 관리 시스템입니다.
 
 ---
 
@@ -48,13 +33,11 @@
 - **HTML5/CSS3** - 마크업 및 스타일링
 - **JavaScript (ES6+)** - 클라이언트 사이드 로직
 
-### DevOps & Tools
+### 배포 & 클라우드
 
-- **Render** - 클라우드 배포 플랫폼
+- **Render** - 웹 서비스 배포
 - **MongoDB Atlas** - 클라우드 데이터베이스
-- **AWS S3** - 이미지 저장소
-- **Git/GitHub** - 버전 관리
-- **dotenv** - 환경 변수 관리
+- **AWS S3** - 이미지 파일 저장
 
 ---
 
@@ -147,23 +130,6 @@
 
 ---
 
-## 🖥️ 스크린샷
-
-### 메인 페이지
-
-![메인 페이지](https://via.placeholder.com/800x400/2563eb/ffffff?text=SEONOH+개발+노트)
-_깔끔한 히어로 섹션과 카드형 레이아웃으로 최신 학습 기록을 한눈에 확인_
-
-### 게시판 페이지
-
-![게시판](https://via.placeholder.com/800x400/3b82f6/ffffff?text=학습+기록+게시판)
-_카테고리별 분류와 검색 기능을 통한 효율적인 학습 내용 관리_
-
-### 글 작성 페이지
-
-![글 작성](https://via.placeholder.com/800x400/1d4ed8/ffffff?text=학습+기록+작성)
-_이미지 업로드와 카테고리 선택으로 편리한 학습 기록 작성_
-
 ---
 
 ## ⚙️ 설치 및 실행
@@ -195,34 +161,25 @@ touch .env
 
 # 환경 변수 편집
 DB_URL=mongodb://localhost:27017/forum
-# 또는 MongoDB Atlas 연결 문자열
-DB_URL=mongodb+srv://<username>:<password>@cluster.mongodb.net/forum
-
 SESSION_SECRET=your-session-secret
 NODE_ENV=development
-
-# AWS S3 설정 (선택사항)
-S3_KEY=your-s3-access-key
-S3_SECRET=your-s3-secret-key
 ```
 
-### 4. 데이터베이스 초기 설정
+**배포할 때는 Render 대시보드에서 환경변수 설정**
+
+### 4. MongoDB 실행
 
 ```bash
-# MongoDB 로컬 서버 실행 (로컬 MongoDB 사용 시)
+# 로컬 MongoDB 사용하는 경우
 mongod
-
-# 또는 MongoDB Atlas 사용 시 별도 설정 불필요
 ```
+
+**MongoDB Atlas 사용하면 별도 설정 불필요**
 
 ### 5. 애플리케이션 실행
 
 ```bash
-# 개발 모드
-npm run dev
-
-# 또는 직접 실행
-node server.js
+npm start
 ```
 
 ### 6. 브라우저에서 확인
@@ -359,26 +316,6 @@ const storage =
       });
 ```
 
-### 4. 반응형 디자인
-
-```css
-/* Glassmorphism 효과와 모던한 UI */
-.hero {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  backdrop-filter: blur(10px);
-  border-radius: 0 0 30px 30px;
-  overflow: hidden;
-}
-
-.featured-card {
-  background: white;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-  border: 1px solid rgba(37, 99, 235, 0.1);
-  backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
-}
-```
-
 ---
 
 ## 🐛 트러블슈팅
@@ -437,83 +374,34 @@ app.use("/post", require("./routes/post"));
 
 ---
 
-## 📈 향후 개선 계획
-
-### 🎯 단기 계획 (1-2주)
-
-- [ ] **마크다운 에디터**: 글 작성 시 마크다운 지원 및 실시간 미리보기
-- [ ] **댓글 시스템**: 게시글별 댓글 기능 추가
-- [ ] **좋아요/북마크**: 유용한 글 저장 기능
-- [ ] **태그 시스템**: 다중 태그를 통한 세분화된 분류
-
-### 🚀 중기 계획 (1-2개월)
-
-- [ ] **사용자 프로필**: 개인 프로필 페이지 및 설정
-- [ ] **소셜 로그인**: GitHub, Google OAuth 연동
-- [ ] **알림 시스템**: 새 댓글, 좋아요 알림
-- [ ] **RSS 피드**: 블로그 구독 기능
-
-### 🔥 장기 계획 (3개월+)
-
-- [ ] **모바일 앱**: React Native를 활용한 모바일 버전
-- [ ] **AI 추천**: 머신러닝 기반 개인 맞춤 학습 콘텐츠 추천
-- [ ] **스터디 그룹**: 함께 공부할 수 있는 커뮤니티 기능
-- [ ] **포트폴리오 연동**: 학습 내용을 자동으로 포트폴리오로 변환
-
----
-
-## 🤝 기여하기
-
-이 프로젝트는 개인 학습용이지만, 피드백과 제안은 언제나 환영합니다!
-
-### 기여 방법
-
-1. 이 저장소를 Fork 합니다
-2. 새 브랜치를 생성합니다 (`git checkout -b feature/amazing-feature`)
-3. 변경사항을 커밋합니다 (`git commit -m 'Add amazing feature'`)
-4. 브랜치에 Push 합니다 (`git push origin feature/amazing-feature`)
-5. Pull Request를 생성합니다
-
-### 개선 제안
-
-- 💡 새로운 기능 아이디어
-- 🐛 버그 리포트
-- 📝 문서 개선
-- 🎨 UI/UX 개선 제안
-
----
-
 ## 📞 연락처
 
-**SEONOH** - 신입 개발자
+궁금한 점이나 개선 제안이 있으면 언제든 연락주세요!
 
-- 📧 Email: [sunfivemin@gmail.com](mailto:sunfivemin@gmail.com)
-- 🐱 GitHub: [@sunfivemin](https://github.com/sunfivemin)
-- 🌐 Live Demo: [board-fs9x.onrender.com](https://board-fs9x.onrender.com)
-
----
-
-## 📄 라이선스
-
-이 프로젝트는 MIT 라이선스 하에 배포됩니다. 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
+- 📧 **Email**: [sunfivemin@gmail.com](mailto:sunfivemin@gmail.com)
+- 🐱 **GitHub**: [@sunfivemin](https://github.com/sunfivemin)
 
 ---
 
-## 🙏 감사 인사
+## 📈 앞으로 추가하고 싶은 기능들
 
-- **Node.js 커뮤니티**: 풍부한 생태계와 문서 제공
-- **MongoDB**: 유연한 NoSQL 데이터베이스 솔루션
-- **Render**: 간편한 배포 플랫폼 제공
-- **AWS**: 안정적인 클라우드 서비스 제공
-- **오픈소스 기여자들**: 사용된 모든 라이브러리의 개발자들
+### 가까운 미래
+
+- [ ] **마크다운 에디터** - 글 작성할 때 마크다운 지원
+- [ ] **댓글 시스템** - 게시글별로 댓글 달 수 있게
+- [ ] **태그 기능** - 카테고리보다 더 세분화된 분류
+
+### 언젠가는
+
+- [ ] **다크모드** - 눈이 편한 어두운 테마
+- [ ] **모바일 앱** - React Native로 만들어보고 싶어요
+- [ ] **검색 개선** - 더 정확한 검색 결과
 
 ---
 
 <div align="center">
 
 **⚡ 매일 성장하는 개발자 되기 ⚡**
-
-`console.log('Thanks for visiting my project! 🎯');`
 
 [![GitHub stars](https://img.shields.io/github/stars/sunfivemin/board?style=social)](https://github.com/sunfivemin/board/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/sunfivemin/board?style=social)](https://github.com/sunfivemin/board/network)
