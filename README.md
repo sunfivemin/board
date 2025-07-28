@@ -50,13 +50,6 @@
 - **이미지 업로드**: AWS S3를 통한 안정적인 이미지 저장
 - **검색 기능**: 제목, 내용, 카테고리 기반 통합 검색
 
-### 🎨 사용자 인터페이스
-
-- **반응형 디자인**: 모바일, 태블릿, 데스크톱 최적화
-- **모던 UI/UX**: Glassmorphism 디자인과 부드러운 애니메이션
-- **카드형 레이아웃**: 직관적이고 아름다운 카드 디자인
-- **스티키 푸터**: 콘텐츠 양에 관계없이 하단 고정
-
 ### 🔐 사용자 인증
 
 - **회원가입/로그인**: Passport.js 기반 인증 시스템
@@ -347,14 +340,14 @@ mongoose.connect(DB_URL, {
 **문제**: 로컬에서는 정상 작동하지만 배포 후 로그인 실패
 
 ```javascript
-// 해결책: 세션 설정 최적화
+// 해결책: Render 리버스 프록시 환경에 맞는 세션 설정
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false, // Render에서는 false로 설정
+      secure: false, // Render 리버스 프록시 환경에서는 false 필요
       httpOnly: true,
       sameSite: "lax",
     },
@@ -385,17 +378,9 @@ app.use("/post", require("./routes/post"));
 
 ## 📈 앞으로 추가하고 싶은 기능들
 
-### 가까운 미래
-
 - [ ] **마크다운 에디터** - 글 작성할 때 마크다운 지원
 - [ ] **댓글 시스템** - 게시글별로 댓글 달 수 있게
 - [ ] **태그 기능** - 카테고리보다 더 세분화된 분류
-
-### 언젠가는
-
-- [ ] **다크모드** - 눈이 편한 어두운 테마
-- [ ] **모바일 앱** - React Native로 만들어보고 싶어요
-- [ ] **검색 개선** - 더 정확한 검색 결과
 
 ---
 
