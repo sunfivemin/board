@@ -4,6 +4,7 @@
     <%- include('../partials/head') %>
     <title>로그인</title>
     <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/modal.css" />
     <script src="/js/nav.js" defer></script>
     <script src="/js/modal.js" defer></script>
   </head>
@@ -42,7 +43,7 @@
     </div>
 
     <!-- 모달 (조건부 표시) -->
-    <div id="customModal" class="custom-modal" style="display: none;">
+    <div id="customModal" class="custom-modal">
       <div class="modal-content">
         <div class="modal-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -59,7 +60,10 @@
           <button onclick="hideModal()" class="modal-button cancel-btn">
             취소
           </button>
-          <button onclick="handleModalConfirm()" class="modal-button confirm-btn">
+          <button
+            onclick="handleModalConfirm()"
+            class="modal-button confirm-btn"
+          >
             확인
           </button>
         </div>
@@ -77,18 +81,22 @@
         const modalTitle = modal.querySelector(".modal-title");
         const modalMessage = modal.querySelector(".modal-message");
         const confirmBtn = modal.querySelector(".confirm-btn");
-        
+
         if (type === "success") {
           modalTitle.textContent = "성공";
           modalMessage.textContent = message;
           confirmBtn.textContent = "확인";
+          // 성공 시에는 취소 버튼 숨기기
+          modal.querySelector(".cancel-btn").style.display = "none";
         } else if (type === "error") {
           modalTitle.textContent = "오류";
           modalMessage.textContent = message;
           confirmBtn.textContent = "확인";
+          // 오류 시에는 취소 버튼 숨기기
+          modal.querySelector(".cancel-btn").style.display = "none";
         }
-        
-        modal.style.display = "flex";
+
+        modal.classList.add("show");
       }
 
       // 폼 제출 시 로딩 표시
@@ -103,7 +111,7 @@
       // 모달 닫기 함수
       function hideModal() {
         const modal = document.getElementById("customModal");
-        modal.style.display = "none";
+        modal.classList.remove("show");
       }
 
       // 모달 확인 버튼 함수
