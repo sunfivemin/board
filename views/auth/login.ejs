@@ -5,6 +5,7 @@
     <title>로그인</title>
     <link rel="stylesheet" href="/css/main.css" />
     <script src="/js/nav.js" defer></script>
+    <script src="/js/modal.js" defer></script>
   </head>
   <body>
     <%- include('../partials/nav') %>
@@ -40,6 +41,31 @@
       </form>
     </div>
 
+    <!-- 모달 (조건부 표시) -->
+    <div id="customModal" class="custom-modal" style="display: none;">
+      <div class="modal-content">
+        <div class="modal-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"
+            />
+          </svg>
+        </div>
+        <h3 class="modal-title">알림</h3>
+        <p class="modal-message">메시지</p>
+        <div class="modal-buttons">
+          <button onclick="hideModal()" class="modal-button cancel-btn">
+            취소
+          </button>
+          <button onclick="handleModalConfirm()" class="modal-button confirm-btn">
+            확인
+          </button>
+        </div>
+      </div>
+    </div>
+
     <script>
       // URL 파라미터에서 메시지 확인
       const urlParams = new URLSearchParams(window.location.search);
@@ -47,17 +73,22 @@
       const type = urlParams.get("type");
 
       if (message) {
+        const modal = document.getElementById("customModal");
+        const modalTitle = modal.querySelector(".modal-title");
+        const modalMessage = modal.querySelector(".modal-message");
+        const confirmBtn = modal.querySelector(".confirm-btn");
+        
         if (type === "success") {
-          showModal(message, {
-            title: "성공",
-            type: "success",
-          });
+          modalTitle.textContent = "성공";
+          modalMessage.textContent = message;
+          confirmBtn.textContent = "확인";
         } else if (type === "error") {
-          showModal(message, {
-            title: "오류",
-            type: "error",
-          });
+          modalTitle.textContent = "오류";
+          modalMessage.textContent = message;
+          confirmBtn.textContent = "확인";
         }
+        
+        modal.style.display = "flex";
       }
 
       // 폼 제출 시 로딩 표시
@@ -68,6 +99,17 @@
           submitBtn.textContent = "로그인 중...";
           submitBtn.disabled = true;
         });
+
+      // 모달 닫기 함수
+      function hideModal() {
+        const modal = document.getElementById("customModal");
+        modal.style.display = "none";
+      }
+
+      // 모달 확인 버튼 함수
+      function handleModalConfirm() {
+        hideModal();
+      }
     </script>
   </body>
 </html>

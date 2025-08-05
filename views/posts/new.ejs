@@ -99,5 +99,26 @@
        </footer>
 
     <script src="/js/search.js" defer></script>
+    
+    <script>
+      // URL 파라미터에서 메시지 확인
+      const urlParams = new URLSearchParams(window.location.search);
+      const message = urlParams.get('message');
+      const type = urlParams.get('type');
+      
+      if (message) {
+        if (type === 'success') {
+          showModal(message, {
+            title: '성공',
+            type: 'success'
+          });
+        } else if (type === 'error') {
+          showModal(message, {
+            title: '오류',
+            type: 'error'
+          });
+        }
+      }
+    </script>
   </body>
 </html>

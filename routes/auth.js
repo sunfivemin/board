@@ -40,7 +40,9 @@ router.post("/login", (req, res, next) => {
 
       console.log("✅ 로그인 성공 및 세션 생성:", user.username);
       console.log("🔍 세션 정보:", req.session);
-      return res.redirect("/?message=로그인에 성공했습니다!&type=success");
+      return res.redirect(
+        `/?message=${user.username}님, 환영합니다!&type=success`
+      );
     });
   })(req, res, next);
 });
@@ -49,7 +51,7 @@ router.post("/login", (req, res, next) => {
 router.get("/logout", (req, res, next) => {
   req.logout((err) => {
     if (err) return next(err);
-    res.redirect("/");
+    res.redirect("/?message=로그아웃되었습니다.&type=success");
   });
 });
 

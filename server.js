@@ -36,7 +36,7 @@ app.get("/test", (req, res) => {
 (async () => {
   try {
     console.log("🚀 서버 시작 중...");
-    
+
     // 💾 세션 설정 (DB 연결 전에 먼저 설정)
     app.use(
       session({
