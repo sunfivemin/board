@@ -35,7 +35,14 @@ router.get("/", async (req, res) => {
     });
   } catch (error) {
     console.error("메인 페이지 로드 중 에러:", error);
-    res.status(500).send("서버 에러가 발생했습니다.");
+    // DB 연결 실패 시 빈 페이지로 렌더링
+    res.render("list/list", {
+      posts: [],
+      currentPage: 1,
+      totalPages: 1,
+      totalPosts: 0,
+      user: req.user,
+    });
   }
 });
 

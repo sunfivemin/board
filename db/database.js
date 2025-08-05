@@ -24,13 +24,15 @@ const connectDB = async () => {
     console.log("🔄 새로운 MongoDB 연결 생성...");
 
     client = new MongoClient(url, {
-      // Render 서버 최적화 설정
-      serverSelectionTimeoutMS: 5000, // 5초
-      connectTimeoutMS: 10000, // 10초
-      maxPoolSize: 10, // 서버에서는 여러 연결 가능
-      minPoolSize: 1, // 최소 1개 연결 유지
-      maxIdleTimeMS: 30000, // 30초 후 유휴 연결 해제
+      // Render 서버 최적화 설정 (더 빠른 연결)
+      serverSelectionTimeoutMS: 3000, // 3초로 단축
+      connectTimeoutMS: 5000, // 5초로 단축
+      maxPoolSize: 5, // 연결 풀 크기 줄임
+      minPoolSize: 0, // 최소 연결 수 줄임
+      maxIdleTimeMS: 60000, // 1분으로 연장
       retryWrites: true,
+      retryReads: true, // 읽기 재시도 추가
+      w: "majority", // 쓰기 확인 레벨
     });
 
     await client.connect();
@@ -38,7 +40,9 @@ const connectDB = async () => {
     return client;
   } catch (error) {
     console.error("❌ MongoDB 연결 실패:", error.message);
-    throw error;
+    // 연결 실패 시에도 서버는 계속 실행
+    console.log("⚠️ DB 연결 없이 서버를 계속 실행합니다.");
+    return null;
   }
 };
 

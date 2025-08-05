@@ -18,23 +18,29 @@ router.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) {
       console.error("❌ 인증 에러:", err);
-      return next(err);
+      return res.redirect(
+        "/auth/login?message=로그인 처리 중 오류가 발생했습니다.&type=error"
+      );
     }
 
     if (!user) {
       console.log("❌ 인증 실패:", info.message);
-      return res.redirect("/auth/login");
+      return res.redirect(
+        "/auth/login?message=아이디 또는 비밀번호가 올바르지 않습니다.&type=error"
+      );
     }
 
     req.logIn(user, (err) => {
       if (err) {
         console.error("❌ 로그인 세션 에러:", err);
-        return next(err);
+        return res.redirect(
+          "/auth/login?message=로그인 처리 중 오류가 발생했습니다.&type=error"
+        );
       }
 
       console.log("✅ 로그인 성공 및 세션 생성:", user.username);
       console.log("🔍 세션 정보:", req.session);
-      return res.redirect("/");
+      return res.redirect("/?message=로그인에 성공했습니다!&type=success");
     });
   })(req, res, next);
 });
@@ -60,20 +66,22 @@ router.post("/signup", async (req, res) => {
     const { username, password, confirmPassword, email } = req.body;
 
     if (!username || !password || !confirmPassword || !email) {
-      return res.render("auth/signup", { error: "모든 필드를 입력해주세요." });
+      return res.redirect(
+        "/auth/signup?message=모든 필드를 입력해주세요.&type=error"
+      );
     }
 
     if (password !== confirmPassword) {
-      return res.render("auth/signup", {
-        error: "비밀번호가 일치하지 않습니다.",
-      });
+      return res.redirect(
+        "/auth/signup?message=비밀번호가 일치하지 않습니다.&type=error"
+      );
     }
 
     const existingUser = await db.collection("users").findOne({ username });
     if (existingUser) {
-      return res.render("auth/signup", {
-        error: "이미 사용중인 아이디입니다.",
-      });
+      return res.redirect(
+        "/auth/signup?message=이미 사용중인 아이디입니다.&type=error"
+      );
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -84,12 +92,14 @@ router.post("/signup", async (req, res) => {
       createdAt: new Date(),
     });
 
-    res.redirect("/auth/login");
+    res.redirect(
+      "/auth/login?message=회원가입이 완료되었습니다! 로그인해주세요.&type=success"
+    );
   } catch (error) {
     console.error("회원가입 에러:", error);
-    res.render("auth/signup", {
-      error: "회원가입 처리 중 오류가 발생했습니다.",
-    });
+    res.redirect(
+      "/auth/signup?message=회원가입 처리 중 오류가 발생했습니다.&type=error"
+    );
   }
 });
 

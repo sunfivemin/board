@@ -10,7 +10,7 @@
     <%- include('../partials/nav') %>
 
     <div class="auth-container">
-      <form class="auth-form" action="/auth/login" method="POST">
+      <form class="auth-form" action="/auth/login" method="POST" id="loginForm">
         <h4>로그인</h4>
 
         <% if (error) { %>
@@ -39,5 +39,35 @@
         </div>
       </form>
     </div>
+
+    <script>
+      // URL 파라미터에서 메시지 확인
+      const urlParams = new URLSearchParams(window.location.search);
+      const message = urlParams.get("message");
+      const type = urlParams.get("type");
+
+      if (message) {
+        if (type === "success") {
+          showModal(message, {
+            title: "성공",
+            type: "success",
+          });
+        } else if (type === "error") {
+          showModal(message, {
+            title: "오류",
+            type: "error",
+          });
+        }
+      }
+
+      // 폼 제출 시 로딩 표시
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", function () {
+          const submitBtn = this.querySelector('button[type="submit"]');
+          submitBtn.textContent = "로그인 중...";
+          submitBtn.disabled = true;
+        });
+    </script>
   </body>
 </html>
